@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#d9eff1" />
+  <meta name="description" content="Một bông hoa nhỏ, một khu vườn thương và lời chúc 20/10 dành cho bạn." />
+  <title>Một vườn hoa dành tặng bạn 🌷</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <span class="glow glow--left"></span><span class="glow glow--right"></span>
+    <span class="sparkle sparkle--1"></span><span class="sparkle sparkle--2"></span>
+    <span class="sparkle sparkle--3"></span><span class="sparkle sparkle--4"></span>
+  </div>
+
+  <main class="scene" id="scene">
+    <p class="overline" id="overline">20 · 10 · Một ngày thật dịu dàng</p>
+    <div class="intro" id="intro">
+      <h1>Từ một bông hoa nhỏ<span class="ellipsis">...</span></h1>
+      <p>Chạm vào bông hồng nhé,<br />có một điều bất ngờ đang đợi bạn.</p>
+    </div>
+
+    <button class="first-rose" id="firstRose" type="button" aria-label="Chạm để mở khu vườn hoa và bức thư" title="Chạm vào bông hoa">
+      <span class="first-rose__art" id="firstRoseArt" aria-hidden="true"></span>
+      <span class="first-rose__halo" aria-hidden="true"></span>
+    </button>
+    <p class="tap-hint" id="tapHint"><span aria-hidden="true">✦</span> Chạm vào bông hoa <span aria-hidden="true">✦</span></p>
+    <div class="garden" id="garden" aria-hidden="true"></div>
+    <div class="falling-petals" id="fallingPetals" aria-hidden="true"></div>
+
+    <p class="garden-quote" id="gardenQuote" aria-hidden="true">Từ một bông hoa, cả khu vườn đang thức giấc...</p>
+  </main>
+
+  <section class="letter-overlay" id="letterOverlay" role="dialog" aria-label="Thư chúc mừng ngày 20 tháng 10" aria-modal="true" aria-hidden="true">
+    <button class="envelope" id="envelope" type="button" aria-label="Mở bức thư">
+      <span class="envelope__back"></span>
+      <span class="envelope__flap"></span>
+      <span class="envelope__front"></span>
+      <span class="envelope__seal">♥</span>
+      <span class="envelope__note">Có thư gửi bạn!</span>
+    </button>
+
+    <article class="letter" id="letter" aria-hidden="true">
+      <span class="letter__corner letter__corner--left" aria-hidden="true">✿</span>
+      <span class="letter__corner letter__corner--right" aria-hidden="true">✿</span>
+      <div class="letter__stamp" aria-hidden="true">💌</div>
+      <p class="letter__eyebrow">MỘT LỜI CHÚC NHỎ · 20/10</p>
+      <h2 id="letterTitle">Gửi bạn, cô gái tuyệt vời!</h2>
+      <div class="letter__divider"><span>♡</span></div>
+      <p class="letter__message" id="letterMessage">Chúc bạn ngày 20/10 thật vui vẻ, luôn xinh đẹp, rạng rỡ và được yêu thương theo cách mà bạn xứng đáng. Mong mỗi ngày của bạn đều có những niềm vui nho nhỏ, những nụ cười thật tươi và thật nhiều điều tốt đẹp ghé thăm! 🌷</p>
+      <p class="letter__closing">Thương gửi,</p>
+      <p class="letter__signature" id="letterSignature">Một người luôn trân trọng bạn ♡</p>
+      <button class="again-button" id="againButton" type="button">↻ Xem lại khu vườn</button>
+    </article>
+  </section>
+
+  <noscript><p class="noscript">Trang web cần bật JavaScript để hoa nở và mở bức thư.</p></noscript>
+</body>
+</html>

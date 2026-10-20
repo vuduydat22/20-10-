@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tạo mã QR cho khu vườn hoa 20/10</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#fff8f6;color:#543b51}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,#d5f1f3,transparent 55%),linear-gradient(#fff9f6,#ffe9ef);padding:35px 15px}
+    .container{width:min(660px,100%);margin:auto;background:#fffcfbed;border:1px solid #fff;border-radius:24px;padding:clamp(20px,4vw,38px);box-shadow:0 20px 65px #79546b18}
+    h1{text-align:center;font-family:Georgia,serif;font-size:clamp(27px,5vw,39px);font-weight:500;color:#9b5780;margin:0 0 12px}
+    .subtitle{text-align:center;color:#827582;line-height:1.7;font-size:14px;margin:0 auto 26px;max-width:480px}
+    label{display:block;margin:15px 0 6px;font-size:13px;font-weight:650;color:#775469}
+    input,textarea{display:block;width:100%;font:inherit;font-size:14px;border:1px solid #edcbd9;background:white;border-radius:12px;padding:13px 14px;outline:0;color:#4e394d}
+    input:focus,textarea:focus{border-color:#bc7ca4;box-shadow:0 0 0 3px #f5dfe9}
+    textarea{min-height:96px;resize:vertical}
+    .hint{font-size:12px;color:#94828e;line-height:1.7}
+    button,.download{border:0;background:#b66b94;color:white;font:inherit;font-size:14px;font-weight:650;padding:14px 18px;border-radius:999px;cursor:pointer;text-align:center;text-decoration:none}
+    button:hover,.download:hover{background:#9b4e78}
+    button.secondary{background:#eec9da;color:#834c6c}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+    .result{display:none;border-top:1px solid #ecd6e0;margin-top:26px;padding-top:26px;text-align:center}
+    .result.active{display:block}
+    .result h2{font:500 25px Georgia,serif;color:#865872}
+    #qrCanvas{display:block;max-width:100%;height:auto;background:white;border-radius:12px;margin:14px auto 20px;padding:10px;box-shadow:0 6px 18px #754a5815}
+    #shareLink{word-break:break-all;font-size:12px;color:#856174;background:#fff4f8;padding:13px;border-radius:12px;text-align:left;margin-top:15px;user-select:all}
+    .alert{font-size:13px;line-height:1.7;margin-top:15px;color:#ac446c;min-height:1.5em}
+    .badge{display:inline-block;border-radius:99px;background:#edf7f2;color:#49826d;font-size:12px;padding:6px 13px;margin-top:12px}
+    .foot{color:#907f8b;text-align:center;font-size:12px;margin:22px auto 0;line-height:1.6}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>🌷 Tạo mã QR gửi hoa</h1>
+    <p class="subtitle">Sau khi đăng trang web hoa lên GitHub Pages, dán đường dẫn vào đây. Bạn có thể đổi tên, người gửi và lời chúc mà <strong>không cần sửa mã nguồn</strong>.</p>
+    <form id="qrForm">
+      <label for="siteUrl">1. Đường dẫn website hoa đã công khai <span style="color:#bc4269">*</span></label>
+      <input id="siteUrl" type="url" placeholder="https://ten-ban.github.io/vuon-hoa-20-10/" required />
+      <span class="hint">Không dùng đường dẫn file:/// hoặc localhost: điện thoại người nhận không mở được.</span>
+      <label for="recipient">2. Tên người nhận (không bắt buộc)</label>
+      <input id="recipient" type="text" maxlength="70" placeholder="Ví dụ: Mai" />
+      <label for="sender">3. Tên người gửi (không bắt buộc)</label>
+      <input id="sender" type="text" maxlength="70" placeholder="Ví dụ: Nam" />
+      <label for="message">4. Lời chúc riêng (không bắt buộc)</label>
+      <textarea id="message" maxlength="350" placeholder="Nếu để trống, website sẽ dùng lời chúc mặc định."></textarea>
+      <span class="hint">Giữ lời chúc ngắn để mã QR dễ quét; văn bản sẽ được đưa vào đường link, không lưu lên máy chủ.</span>
+      <div class="actions"><button type="submit">✦ Tạo mã QR của tôi</button></div>
+      <p id="error" class="alert" role="alert"></p>
+    </form>
+    <section class="result" id="result" aria-live="polite">
+      <h2>Một khu vườn dành cho bạn ♡</h2>
+      <span class="badge">QR đã sẵn sàng</span>
+      <canvas id="qrCanvas" aria-label="Mã QR dẫn tới trang web hoa"></canvas>
+      <div class="actions">
+        <a class="download" id="downloadQR" download="ma-qr-hoa-20-10.png" href="#">↓ Tải ảnh QR</a>
+        <button class="secondary" type="button" id="copyLink">Sao chép đường link</button>
+      </div>
+      <p class="hint">Nên thử quét bằng điện thoại khác trước khi gửi tặng.</p>
+      <p id="shareLink"></p>
+    </section>
+    <p class="foot">Tạo QR ngay trên thiết bị, không gửi nội dung tới dịch vụ QR bên ngoài.</p>
+  </main>
+  <script src="qr-core.js"></script>
+  <script>
+    "use strict";
+    const form = document.getElementById('qrForm');
+    const canvas = document.getElementById('qrCanvas');
+    const errorElement = document.getElementById('error');
+    let generatedLink = '';
+    // Can reuse the host site URL if the QR maker is also uploaded to GitHub Pages.
+    if (location.protocol === 'https:' && !location.hostname.endsWith('localhost')) {
+      document.getElementById('siteUrl').value = new URL('index.html', location.href).href;
+    }
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      errorElement.textContent = '';
+      document.getElementById('result').classList.remove('active');
+      try {
+        const website = new URL(document.getElementById('siteUrl').value.trim());
+        if (!['http:', 'https:'].includes(website.protocol) || website.hostname === 'localhost' || website.hostname === '127.0.0.1') {
+          throw new Error('Bạn cần đường dẫn website thật trên Internet, không phải localhost.');
+        }
+        website.hash = '';
+        for (const key of ['ten','tu','loi']) website.searchParams.delete(key);
+        const ten = document.getElementById('recipient').value.trim();
+        const tu = document.getElementById('sender').value.trim();
+        const loi = document.getElementById('message').value.trim();
+        if (ten) website.searchParams.set('ten', ten);
+        if (tu) website.searchParams.set('tu', tu);
+        if (loi) website.searchParams.set('loi', loi);
+        generatedLink = website.href;
+        const qrcode = new QRCore(-1, 0); // Tự chọn kích thước; sửa lỗi cấp M.
+        qrcode.addData(generatedLink);
+        qrcode.make();
+        const n = qrcode.getModuleCount();
+        const quietZone = 4;
+        const scale = Math.max(4, Math.floor(720 / (n + quietZone * 2)));
+        const side = (n + quietZone * 2) * scale;
+        canvas.width = side;
+        canvas.height = side;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,side,side);
+        ctx.fillStyle = '#25202b';
+        for (let row = 0; row < n; row++) {
+          for (let col = 0; col < n; col++) {
+            if (qrcode.isDark(row,col)) {
+              ctx.fillRect((col + quietZone) * scale,(row + quietZone) * scale,scale,scale);
+            }
+          }
+        }
+        document.getElementById('shareLink').textContent = generatedLink;
+        document.getElementById('downloadQR').href = canvas.toDataURL('image/png');
+        document.getElementById('result').classList.add('active');
+        document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+      } catch (err) {
+        errorElement.textContent = 'Không tạo được mã QR: ' + (err.message || 'Vui lòng kiểm tra đường dẫn và rút ngắn lời chúc.');
+      }
+    });
+    document.getElementById('copyLink').addEventListener('click', async () => {
+      if (!generatedLink) return;
+      try { await navigator.clipboard.writeText(generatedLink); alert('Đã sao chép đường link!'); }
+      catch (_) { prompt('Sao chép đường link này:', generatedLink); }
+    });
+  </script>
+</body>
+</html>

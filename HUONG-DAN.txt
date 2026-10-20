@@ -1,0 +1,54 @@
+QUÀ TẶNG 20/10: BÔNG HỒNG NỞ THÀNH VƯỜN HOA + BỨC THƯ + MÃ QR
+================================================================
+
+A. XEM THỬ TRÊN MÁY TÍNH (KHÔNG CẦN CÀI GÌ)
+1. Giải nén file ZIP này.
+2. Nhấp đúp file "index.html" để xem website.
+3. Chạm/nhấp vào bông hồng; sau vài giây, phong bì xuất hiện
+   và bức thư tự mở. Có thể nhấn phong bì để mở sớm hơn.
+4. Nhấn "Xem lại khu vườn" để phát lại hiệu ứng.
+
+B. ĐĂNG LÊN INTERNET (MIỄN PHÍ, ĐỂ QUÉT QR MỞ ĐƯỢC)
+1. Đăng nhập https://github.com/ (tạo tài khoản nếu chưa có).
+2. Chọn dấu + > New repository.
+3. Đặt tên repository, ví dụ: vuon-hoa-20-10.
+4. Chọn Public, rồi Create repository.
+5. Chọn "uploading an existing file" hoặc Add file > Upload files.
+6. TẢI LÊN CÁC FILE Ở THƯ MỤC NÀY (index.html, style.css,
+   script.js, qr-core.js, tao-ma-qr.html). KHÔNG tải thư mục
+   bao ngoài nếu muốn đường dẫn gọn.
+7. Chọn Commit changes.
+8. Trong repository, chọn Settings > Pages.
+9. Ở mục Build and deployment, chọn Deploy from a branch,
+   Branch: main, Folder: / (root), rồi Save.
+10. Đợi ít phút, mở đường dẫn GitHub Pages thông báo, thường là:
+    https://TEN-TAI-KHOAN.github.io/vuon-hoa-20-10/
+    (Thay TEN-TAI-KHOAN bằng tên tài khoản GitHub thực tế.)
+11. Dán link vào trình duyệt điện thoại để xác nhận website chạy.
+
+C. TẠO ẢNH MÃ QR DẪN TỚI WEBSITE
+1. Mở file "tao-ma-qr.html" bằng Chrome/Edge.
+2. Dán link Github Pages của website hoa từ phần B.
+3. Có thể nhập tên người nhận, tên người gửi và lời chúc riêng.
+   Nếu để trống sẽ dùng lời chúc mẫu.
+4. Bấm "Tạo mã QR của tôi".
+5. Bấm "Tải ảnh QR" để lưu PNG. Gửi ảnh hoặc in lên thiệp.
+6. Thử quét bằng điện thoại khác (hoặc dùng máy ảnh/Google Lens).
+
+D. TÙY CHỈNH LỜI CHÚC MẶC ĐỊNH (KHÔNG CẦN QR CÁ NHÂN)
+1. Mở "script.js" bằng Notepad hoặc VS Code.
+2. Sửa ba dòng đầu trong CONFIG: title, message, signature.
+3. Lưu lại và tải file script.js mới lên repository để cập nhật.
+
+LƯU Ý QUAN TRỌNG
+- Mã QR chỉ mở được trên điện thoại khác SAU KHI WEBSITE ĐÃ ĐƯỢC
+  ĐĂNG LÊN INTERNET. QR trỏ vào file:/// hoặc localhost sẽ không chạy.
+- Website hoạt động trực tiếp trong trình duyệt, không cần máy chủ,
+  cơ sở dữ liệu hoặc tài khoản cho người nhận.
+- Người có đường link có thể đọc lời chúc; không đưa thông tin
+  nhạy cảm vào URL. Mã QR được tạo cục bộ trong trình duyệt.
+- Bông hoa và cánh hoa được vẽ bằng SVG/CSS, không cần tải ảnh.
+
+Thư viện tạo QR nội bộ sử dụng mã nguồn QRCode for JavaScript của
+Kazuhiko Arase (MIT License), được đóng gói từ qrcode-terminal.
+https://github.com/gtanner/qrcode-terminal
